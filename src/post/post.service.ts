@@ -9,8 +9,12 @@ import { UpdatePostDto } from './dto/update-post.dto';
 export class PostService {
   constructor(@InjectModel(Post.name) private postModel: Model<PostDocument>) {}
 
-  create(createPostDto: CreatePostDto) {
-    return this.postModel.create(createPostDto);
+  create(createPostDto: CreatePostDto, photo?, video?) {
+    return this.postModel.create({
+      ...createPostDto,
+      ...(photo ? { photo } : {}),
+      ...(video ? { video } : {}),
+    });
   }
 
   findAll() {
