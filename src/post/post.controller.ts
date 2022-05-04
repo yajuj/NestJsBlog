@@ -100,7 +100,8 @@ export class PostController {
       : undefined;
 
     const candidate = await this.postService.findOne(id);
-    if (candidate.author_id !== user_id) throw new ForbiddenException('dfsdaf');
+    if (candidate.author_id.toString() !== user_id)
+      throw new ForbiddenException();
 
     return await this.postService.update(id, updatePostDto, photo, video);
   }
@@ -111,7 +112,8 @@ export class PostController {
     const { id: user_id } = req.user;
 
     const candidate = await this.findOne(id);
-    if (candidate.author_id !== user_id) throw new ForbiddenException();
+    if (candidate.author_id.toString() !== user_id)
+      throw new ForbiddenException();
 
     return await this.postService.remove(id);
   }
