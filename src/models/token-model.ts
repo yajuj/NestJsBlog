@@ -12,6 +12,6 @@ export class Token {
   user_id;
 }
 
-export type TokenDocument = Token;
+export type TokenDocument = Token & Document;
 
 export const TokenSchema = SchemaFactory.createForClass(Token);

@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class Post {
@@ -21,6 +21,6 @@ export class Post {
   author_id;
 }
 
-export type PostDocument = Post;
+export type PostDocument = Post & Document;
 
 export const PostSchema = SchemaFactory.createForClass(Post);
