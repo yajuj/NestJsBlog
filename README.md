@@ -1,6 +1,7 @@
 ## Description
 
 API Для блога На NestJS
+На основании .env.example создать .env фаил и запустить.
 
 ## Installation
 
