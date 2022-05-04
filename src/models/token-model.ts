@@ -1,7 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { Document } from 'mongoose';
-
-export type TokenDocument = Token & Document;
+import mongoose from 'mongoose';
 
 @Schema()
 export class Token {
@@ -13,5 +11,7 @@ export class Token {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   user_id;
 }
+
+export type TokenDocument = Token;
 
 export const TokenSchema = SchemaFactory.createForClass(Token);

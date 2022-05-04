@@ -13,12 +13,8 @@ export class AuthService {
     return user;
   }
 
-  async findOne(id: number) {
-    const user = await this.UserModel.findOne({ _id: id });
+  async findOne(username) {
+    const user = await this.UserModel.findOne({ username });
     return user;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
   }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, ForbiddenException, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 
@@ -8,6 +8,12 @@ export class AuthController {
 
   @Post()
   create(@Body() createAuthDto: CreateUserDto) {
-    return this.authService.create(createAuthDto);
+    const userFromDb = this.authService.findOne({
+      username: createAuthDto.username,
+    });
+    if (userFromDb) throw new ForbiddenException();
+
+    this.authService.create(createAuthDto);
+    return;
   }
 }
