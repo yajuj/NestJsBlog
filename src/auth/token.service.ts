@@ -12,14 +12,14 @@ export class TokenService {
     private jwtService: JwtService,
   ) {}
 
-  async getTokens(userId: number, username: string): Promise<Tokens> {
+  async getTokens(userId: string, username: string): Promise<Tokens> {
     const [refresh_token, access_token] = await Promise.all([
       this.jwtService.signAsync(
         {
           id: userId,
           username,
         },
-        { secret: 'rt-key', expiresIn: 60 * 60 * 24 * 7 },
+        { secret: process.env.JWT_REFRESH_SECRET, expiresIn: 60 * 60 * 24 * 7 },
       ),
       this.jwtService.signAsync(
         {
@@ -27,7 +27,7 @@ export class TokenService {
           username,
         },
         {
-          secret: 'key',
+          secret: process.env.JWT_ACCESS_SECRET,
           expiresIn: 60 * 15,
         },
       ),
@@ -50,19 +50,18 @@ export class TokenService {
     return;
   }
 
-  async removeToken(user_id: number) {
-    await this.tokenModel.remove({ user_id });
-    return;
+  async removeToken(user_id: string) {
+    return this.tokenModel.remove({ user_id });
   }
 
   async refreshTokens(
-    user_id: number,
+    user_id: string,
     refresh_token: string,
     username: string,
   ) {
     const data = await this.tokenModel.findOne({ user_id });
     if (!data || refresh_token !== data.refresh_token)
-      return new UnauthorizedException();
+      return new UnauthorizedException('Авторизуйтесь в системе!');
 
     const tokens = await this.getTokens(user_id, username);
 

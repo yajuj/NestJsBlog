@@ -1,8 +1,18 @@
-import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserDto } from './dto/user.dto';
 import { TokenService } from './token.service';
 import * as bcrypt from 'bcrypt';
+import { AuthGuard } from '@nestjs/passport';
+import { request } from 'http';
+import { RequestWithMetadata } from 'src/types/request-with-metadata';
 
 @Controller('auth')
 export class AuthController {
@@ -59,6 +69,22 @@ export class AuthController {
       tokens.refresh_token,
     );
 
+    return tokens;
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Post('logout')
+  async logout(@Body() @Req() req: RequestWithMetadata) {
+    const { id } = req.user;
+    await this.tokenService.removeToken(id);
+    return;
+  }
+
+  @UseGuards(AuthGuard('jwt-refresh'))
+  @Post('refresh')
+  async refreshTokens(@Req() req: RequestWithMetadata) {
+    const { id, username, token } = req.user;
+    const tokens = await this.tokenService.refreshTokens(id, token, username);
     return tokens;
   }
 }
