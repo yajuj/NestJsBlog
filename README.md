@@ -22,7 +22,7 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-1.POST
+1.**POST
 
 - 1./auth/signup {"username":"username","password":"password"} вернет {
   "refresh_token": "...",
