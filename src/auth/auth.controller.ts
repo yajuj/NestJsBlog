@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Get,
   Post,
   Req,
   UseGuards,
@@ -86,6 +87,17 @@ export class AuthController {
       const { id } = req.user;
       await this.tokenService.removeToken(id);
       return;
+    } catch (error) {
+      throw new BadRequestException();
+    }
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('me')
+  async me(@Req() req: RequestWithMetadata) {
+    try {
+      const { id, username } = req.user;
+      return { id, username };
     } catch (error) {
       throw new BadRequestException();
     }
