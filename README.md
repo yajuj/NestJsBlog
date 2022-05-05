@@ -38,6 +38,10 @@ $ npm run start:prod
   "access_token": "..."
   }
 - 5./posts headers.Authorization "Bearer ..."
+  {"message":"message", "photo"?: "photo", "video"?:"video"}
+  or
+  multipart/form [photo? : %filename%, video?: %filename%, message:"message"]
+- 6./media multipart/form file : %filename%
 
 ## 2.GET
 
@@ -47,8 +51,10 @@ $ npm run start:prod
 
   3.PATCH
 
-- 1./posts/{id} headers.Authorization "Bearer ..." {"message":"message"}
+- 1./posts/{id} headers.Authorization "Bearer ..." {"message":"message", "photo"?: "photo", "video"?:"video"}
+  or
+  multipart/form [photo? : %filename%, video?: %filename%, message:"message"]
 
- ## 4.DELETE
+## 4.DELETE
 
 - 1./posts/{id} headers.Authorization "Bearer ..."
