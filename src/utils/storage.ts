@@ -1,4 +1,6 @@
 import { diskStorage } from 'multer';
+import { customAlphabet } from 'nanoid';
+const path = require('path');
 
 type validMimeType =
   | 'image/jpg'
@@ -19,11 +21,17 @@ const validFileMime: validMimeType[] = [
   'video/3gpp',
 ];
 
+const idGenerator = customAlphabet(
+  'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+);
+
 export const saveMediaToStorage = {
   storage: diskStorage({
     destination: './media',
     filename: (req, file, cb) => {
-      cb(null, file.originalname);
+      const fileExtentsion: string = path.extname(file.originalname);
+      const fileName: string = idGenerator() + fileExtentsion;
+      cb(null, fileName);
     },
   }),
   fileFilter: (req, file, cb) => {
