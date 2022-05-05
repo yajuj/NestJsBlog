@@ -45,10 +45,10 @@ export class PostController {
     const { hostname } = req;
     const { id, username } = req.user;
 
-    const photo = files.photo
+    const photo = files?.photo
       ? `http://${hostname}/media/${files?.photo[0]?.filename}`
       : undefined;
-    const video = files.video
+    const video = files?.video
       ? `http://${hostname}/media/${files?.video[0]?.filename}`
       : undefined;
 
@@ -92,10 +92,10 @@ export class PostController {
     const { hostname } = req;
     const { id: user_id } = req.user;
 
-    const photo = files.photo
+    const photo = files?.photo
       ? `http://${hostname}/media/${files?.photo[0]?.filename}`
       : undefined;
-    const video = files.video
+    const video = files?.video
       ? `http://${hostname}/media/${files?.video[0]?.filename}`
       : undefined;
 

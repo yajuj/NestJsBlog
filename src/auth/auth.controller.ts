@@ -74,7 +74,7 @@ export class AuthController {
 
   @UseGuards(AuthGuard('jwt'))
   @Post('logout')
-  async logout(@Body() @Req() req: RequestWithMetadata) {
+  async logout(@Req() req: RequestWithMetadata) {
     const { id } = req.user;
     await this.tokenService.removeToken(id);
     return;

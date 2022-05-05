@@ -16,6 +16,6 @@ export class RefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
 
   validate(req: Request, payload: JwtPayload) {
     const refresh_token = req.get('Authorization').replace('Bearer ', '');
-    return { refresh_token, ...payload };
+    return { token: refresh_token, ...payload };
   }
 }
