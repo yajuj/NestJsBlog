@@ -11,6 +11,7 @@ import {
   UploadedFiles,
   UseGuards,
   ForbiddenException,
+  BadRequestException,
 } from '@nestjs/common';
 import { PostService } from './post.service';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -42,33 +43,45 @@ export class PostController {
     @UploadedFiles()
     files: { photo?: Express.Multer.File[]; video?: Express.Multer.File[] },
   ) {
-    const { hostname } = req;
-    const { id, username } = req.user;
+    try {
+      const { hostname } = req;
+      const { id, username } = req.user;
 
-    const photo = files?.photo
-      ? `http://${hostname}/media/${files?.photo[0]?.filename}`
-      : undefined;
-    const video = files?.video
-      ? `http://${hostname}/media/${files?.video[0]?.filename}`
-      : undefined;
+      const photo = files?.photo
+        ? `http://${hostname}/media/${files?.photo[0]?.filename}`
+        : undefined;
+      const video = files?.video
+        ? `http://${hostname}/media/${files?.video[0]?.filename}`
+        : undefined;
 
-    return await this.postService.create(
-      createPostDto,
-      id,
-      username,
-      photo,
-      video,
-    );
+      return await this.postService.create(
+        createPostDto,
+        id,
+        username,
+        photo,
+        video,
+      );
+    } catch (error) {
+      throw new BadRequestException();
+    }
   }
 
   @Get()
   async findAll() {
-    return await this.postService.findAll();
+    try {
+      return await this.postService.findAll();
+    } catch (error) {
+      throw new BadRequestException();
+    }
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return await this.postService.findOne(id);
+    try {
+      return await this.postService.findOne(id);
+    } catch (error) {
+      throw new BadRequestException();
+    }
   }
 
   @UseGuards(AuthGuard('jwt'))
@@ -89,34 +102,42 @@ export class PostController {
     @UploadedFiles()
     files: { photo?: Express.Multer.File[]; video?: Express.Multer.File[] },
   ) {
-    const { hostname } = req;
-    const { id: user_id } = req.user;
+    try {
+      const { hostname } = req;
+      const { id: user_id } = req.user;
 
-    const photo = files?.photo
-      ? `http://${hostname}/media/${files?.photo[0]?.filename}`
-      : undefined;
-    const video = files?.video
-      ? `http://${hostname}/media/${files?.video[0]?.filename}`
-      : undefined;
+      const photo = files?.photo
+        ? `http://${hostname}/media/${files?.photo[0]?.filename}`
+        : undefined;
+      const video = files?.video
+        ? `http://${hostname}/media/${files?.video[0]?.filename}`
+        : undefined;
 
-    const candidate = await this.postService.findOne(id);
-    if (!candidate) throw new ForbiddenException();
-    if (candidate.author_id.toString() !== user_id)
-      throw new ForbiddenException();
+      const candidate = await this.postService.findOne(id);
+      if (!candidate) throw new ForbiddenException();
+      if (candidate.author_id.toString() !== user_id)
+        throw new ForbiddenException();
 
-    return await this.postService.update(id, updatePostDto, photo, video);
+      return await this.postService.update(id, updatePostDto, photo, video);
+    } catch (error) {
+      throw new BadRequestException();
+    }
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
   async remove(@Param('id') id: string, @Req() req: RequestWithMetadata) {
-    const { id: user_id } = req.user;
+    try {
+      const { id: user_id } = req.user;
 
-    const candidate = await this.findOne(id);
-    if (!candidate) throw new ForbiddenException();
-    if (candidate.author_id.toString() !== user_id)
-      throw new ForbiddenException();
+      const candidate = await this.findOne(id);
+      if (!candidate) throw new ForbiddenException();
+      if (candidate.author_id.toString() !== user_id)
+        throw new ForbiddenException();
 
-    return await this.postService.remove(id);
+      return await this.postService.remove(id);
+    } catch (error) {
+      throw new BadRequestException();
+    }
   }
 }
