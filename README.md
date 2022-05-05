@@ -22,7 +22,7 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-1.POST
+## 1.POST
 
 - 1./auth/signup {"username":"username","password":"password"} вернет {
   "refresh_token": "...",
@@ -39,7 +39,7 @@ $ npm run start:prod
   }
 - 5./posts headers.Authorization "Bearer ..."
 
-  2.GET
+## 2.GET
 
 - 1./posts
 - 2./posts/{id}
@@ -49,6 +49,6 @@ $ npm run start:prod
 
 - 1./posts/{id} headers.Authorization "Bearer ..." {"message":"message"}
 
-  4.DELETE
+ ## 4.DELETE
 
 - 1./posts/{id} headers.Authorization "Bearer ..."
