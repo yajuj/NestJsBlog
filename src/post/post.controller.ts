@@ -100,6 +100,7 @@ export class PostController {
       : undefined;
 
     const candidate = await this.postService.findOne(id);
+    if (!candidate) throw new ForbiddenException();
     if (candidate.author_id.toString() !== user_id)
       throw new ForbiddenException();
 
@@ -112,6 +113,7 @@ export class PostController {
     const { id: user_id } = req.user;
 
     const candidate = await this.findOne(id);
+    if (!candidate) throw new ForbiddenException();
     if (candidate.author_id.toString() !== user_id)
       throw new ForbiddenException();
 

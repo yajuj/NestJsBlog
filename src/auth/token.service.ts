@@ -60,9 +60,10 @@ export class TokenService {
     username: string,
   ) {
     const data = await this.tokenModel.findOne({ user_id });
-    console.log(data.refresh_token == refresh_token, refresh_token);
-    if (!data || refresh_token !== data.refresh_token)
-      return new UnauthorizedException('Авторизуйтесь в системе!');
+
+    if (!data) throw new UnauthorizedException('Авторизуйтесь в системе!');
+    if (refresh_token !== data.refresh_token)
+      throw new UnauthorizedException('Авторизуйтесь в системе!');
 
     const tokens = await this.getTokens(user_id, username);
 
