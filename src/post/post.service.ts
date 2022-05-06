@@ -34,13 +34,13 @@ export class PostService {
     return this.postModel.findById(id);
   }
 
-  update(
+  async update(
     id: string,
     updatePostDto: UpdatePostDto,
     photo: string | undefined,
     video: string | undefined,
   ) {
-    return this.postModel.findOneAndUpdate(
+    await this.postModel.updateOne(
       { _id: id },
       {
         ...updatePostDto,
@@ -48,6 +48,7 @@ export class PostService {
         ...(video ? { video } : {}),
       },
     );
+    return this.findOne(id);
   }
 
   remove(id: string) {
