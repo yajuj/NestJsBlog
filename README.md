@@ -58,3 +58,9 @@ $ npm run start:prod
 ## 4.DELETE
 
 - 1./posts/{id} headers.Authorization "Bearer ..."
+- 
+## 4.PATCH
+
+- 1./posts/{id} headers.Authorization "Bearer ..." {"message?":"message", "photo"?: "photo", "video"?:"video"}
+  or
+ multipart/form [photo? : %filename%, video?: %filename%, message:"message"] 
