@@ -104,7 +104,7 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard('jwt-refresh'))
-  @Post('refresh')
+  @Get('refresh')
   async refreshTokens(@Req() req: RequestWithMetadata) {
     try {
       const { id, username, token } = req.user;
