@@ -24,36 +24,48 @@ $ npm run start:prod
 
 ## 1.POST
 
-- 1./auth/signup {"username":"username","password":"password"} вернет {
-  "refresh_token": "...",
-  "access_token": "..."
+- 1./auth/signup {"username":"username","$password":"$password"} вернет {
+  "refresh_token": "$token",
+  "access_token": "$token"
   }
-- 2./auth/signin {"username":"username","password":"password"} вернет {
-  "refresh_token": "...",
-  "access_token": "..."
+-
+- 2./auth/signin {"username":"$username","password":"$password"} вернет {
+  "refresh_token": "$token",
+  "access_token": "$token"
   }
-- 3./auth/logout headers.Authorization "Bearer ..."
-- 4./auth/refresh headers.Authorization "Bearer ..." вернет {
-  "refresh_token": "...",
-  "access_token": "..."
-  }
-- 5./posts headers.Authorization "Bearer ..."
-  {"message":"message", "photo"?: "photo", "video"?:"video"}
+-
+- 3./auth/logout headers.Authorization "Bearer $token"
+-
+- 4./posts headers.Authorization "Bearer $token"
+  {"message":"$message", "photo"?: "$photo", "video"?:"$video"}
   or
-  multipart/form [photo? : %filename%, video?: %filename%, message:"message"]
-- 6./media multipart/form file : %filename%
+  multipart/form [photo? : %filename%, video?: %filename%, message:"$message"]
+-
+- 5./media multipart/form file : %filename%
 
 ## 2.GET
 
 - 1./posts
+- 
 - 2./posts/{id}
+- 
 - 3./media/{mediaId}
+- 
+- 4./auth/refresh headers.Authorization "Bearer $token" вернет {
+  "refresh_token": "$token",
+  "access_token": "$token"
+  }
+-
+  5./auth/me headers.Authorization "Bearer ..." вернет {
+  "id": "$user_id",
+  "username": "$username"
+  }
 
   3.PATCH
 
-- 1./posts/{id} headers.Authorization "Bearer ..." {"message":"message", "photo"?: "photo", "video"?:"video"}
+- 1./posts/{id} headers.Authorization "Bearer ..." {"message":"$message", "photo"?: "$photo", "video"?:"$video"}
   or
-  multipart/form [photo? : %filename%, video?: %filename%, message:"message"]
+  multipart/form [photo? : %filename%, video?: %filename%, message:"$message"]
 
 ## 4.DELETE
 
@@ -61,6 +73,6 @@ $ npm run start:prod
 - 
 ## 4.PATCH
 
-- 1./posts/{id} headers.Authorization "Bearer ..." {"message?":"message", "photo"?: "photo", "video"?:"video"}
+- 1./posts/{id} headers.Authorization "Bearer ..." {"message?":"$message", "photo"?: "$photo", "video"?:"$video"}
   or
- multipart/form [photo? : %filename%, video?: %filename%, message:"message"] 
+ multipart/form [photo? : %filename%, video?: %filename%, message:"$message"] 
