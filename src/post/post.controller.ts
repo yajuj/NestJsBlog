@@ -1,26 +1,25 @@
 import {
-  Controller,
-  Get,
-  Post,
+  BadRequestException,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
-  UseInterceptors,
+  ForbiddenException,
+  Get,
+  Param,
+  Patch,
+  Post,
   Req,
   UploadedFiles,
   UseGuards,
-  ForbiddenException,
-  BadRequestException,
+  UseInterceptors,
 } from '@nestjs/common';
-import { PostService } from './post.service';
+import { AuthGuard } from '@nestjs/passport';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { RequestWithMetadata } from 'src/types/request-with-metadata';
+import { saveMediaToStorage } from 'src/utils/storage';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { FileFieldsInterceptor } from '@nestjs/platform-express';
-import { saveMediaToStorage } from 'src/utils/storage';
-import { Request } from 'express';
-import { AuthGuard } from '@nestjs/passport';
-import { RequestWithMetadata } from 'src/types/request-with-metadata';
+import { PostService } from './post.service';
 
 @Controller('posts')
 export class PostController {
@@ -114,8 +113,7 @@ export class PostController {
         : undefined;
 
       const candidate = await this.postService.findOne(id);
-      if (!candidate) throw new ForbiddenException();
-      if (candidate.author_id.toString() !== user_id)
+      if (!candidate || candidate.author_id.toString() !== user_id)
         throw new ForbiddenException();
 
       return await this.postService.update(id, updatePostDto, photo, video);
@@ -131,8 +129,7 @@ export class PostController {
       const { id: user_id } = req.user;
 
       const candidate = await this.findOne(id);
-      if (!candidate) throw new ForbiddenException();
-      if (candidate.author_id.toString() !== user_id)
+      if (!candidate || candidate.author_id.toString() !== user_id)
         throw new ForbiddenException();
 
       return await this.postService.remove(id);

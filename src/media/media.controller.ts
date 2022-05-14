@@ -11,8 +11,6 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Request, Response } from 'express';
-import { createReadStream } from 'fs';
-import { join } from 'path';
 import { saveMediaToStorage } from 'src/utils/storage';
 
 @Controller('media')
@@ -22,6 +20,8 @@ export class MediaController {
   create(@Req() req: Request, @UploadedFile() file: Express.Multer.File) {
     try {
       const { hostname } = req;
+      console.log(file);
+
       const media = file
         ? `http://${hostname}/media/${file.filename}`
         : undefined;

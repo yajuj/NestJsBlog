@@ -1,7 +1,6 @@
 import { Module, Post } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PostSchema } from 'src/models/post-model';
-import { User, UserSchema } from 'src/models/user-model';
 import { AccessStrategy } from 'src/strategies/access-token.strategy';
 import { PostController } from './post.controller';
 import { PostService } from './post.service';
