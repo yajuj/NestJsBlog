@@ -56,23 +56,23 @@ $ npm run start:prod
   "access_token": "$token"
   }
 -
-  5./auth/me headers.Authorization "Bearer ..." вернет {
+  5./auth/me headers.Authorization "Bearer $token" вернет {
   "id": "$user_id",
   "username": "$username"
   }
 
   3.PATCH
 
-- 1./posts/{id} headers.Authorization "Bearer ..." {"message":"$message", "photo"?: "$photo", "video"?:"$video"}
+- 1./posts/{id} headers.Authorization "Bearer $token" {"message":"$message", "photo"?: "$photo", "video"?:"$video"}
   or
   multipart/form [photo? : %filename%, video?: %filename%, message:"$message"]
 
 ## 4.DELETE
 
-- 1./posts/{id} headers.Authorization "Bearer ..."
+- 1./posts/{id} headers.Authorization "Bearer $token"
 - 
 ## 4.PATCH
 
-- 1./posts/{id} headers.Authorization "Bearer ..." {"message?":"$message", "photo"?: "$photo", "video"?:"$video"}
+- 1./posts/{id} headers.Authorization "Bearer $token" {"message?":"$message", "photo"?: "$photo", "video"?:"$video"}
   or
  multipart/form [photo? : %filename%, video?: %filename%, message:"$message"] 
